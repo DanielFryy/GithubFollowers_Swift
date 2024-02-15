@@ -13,6 +13,7 @@ class GFTextField: UITextField {
         configure()
     }
 
+    @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -33,6 +34,7 @@ class GFTextField: UITextField {
 
         backgroundColor = .tertiarySystemBackground
         autocorrectionType = .no
+        returnKeyType = .go
         placeholder = "Enter a username"
     }
 }
