@@ -34,7 +34,14 @@ class SearchViewController: UIViewController {
     }
 
     @objc func pushFollowerListViewController() {
-        guard !isUsernameEmpty else { return }
+        guard !isUsernameEmpty else {
+            presentGFAlertOnMainThread(
+                title: "Empty Username",
+                message: "Please enter a username. We need to know who to look for 😀.",
+                buttonTitle: "Ok"
+            )
+            return
+        }
         let followerListViewController = FollowerListViewController()
         followerListViewController.username = usernameTextField.text
         followerListViewController.title = usernameTextField.text
@@ -43,7 +50,6 @@ class SearchViewController: UIViewController {
 
     func configureLogoImageView() {
         view.addSubview(logoImageView)
-
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.image = UIImage(named: "gh-logo")
 
