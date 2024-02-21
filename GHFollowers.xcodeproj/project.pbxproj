@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B711E6BD2B86BC2200C8AACD /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B711E6BC2B86BC2200C8AACD /* UIHelper.swift */; };
 		B736C8242B477ACF002575E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B736C8232B477ACF002575E1 /* AppDelegate.swift */; };
 		B736C8262B477ACF002575E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B736C8252B477ACF002575E1 /* SceneDelegate.swift */; };
 		B736C82D2B477AD0002575E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B736C82C2B477AD0002575E1 /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B711E6BC2B86BC2200C8AACD /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		B736C8202B477ACF002575E1 /* GHFollowers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GHFollowers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B736C8232B477ACF002575E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B736C8252B477ACF002575E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				B7980A652B840C35001BB8C2 /* ErrorMessage.swift */,
+				B711E6BC2B86BC2200C8AACD /* UIHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 				B794D0472B7D77C0008EE9A5 /* GFTextField.swift in Sources */,
 				B7D04CF92B7C627F0087888F /* FavouritesListViewController.swift in Sources */,
 				B772472E2B7FD33100E1C2AF /* UIViewController+Ext.swift in Sources */,
+				B711E6BD2B86BC2200C8AACD /* UIHelper.swift in Sources */,
 				B7980A6B2B84146F001BB8C2 /* GFAvatarImageView.swift in Sources */,
 				B794D0452B7D7387008EE9A5 /* GFButton.swift in Sources */,
 				B785D6DB2B7E765D00ECD549 /* FollowerListViewController.swift in Sources */,
