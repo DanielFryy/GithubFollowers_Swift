@@ -27,21 +27,27 @@ extension UIViewController {
         containerView.alpha = 0
 
         UIView.animate(withDuration: 0.25) { containerView.alpha = 0.8 }
-        
+
         let activityIndicator = UIActivityIndicatorView(style: .large)
         containerView.addSubview(activityIndicator)
-        
+
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.center(in: containerView)
-        
+
         activityIndicator.startAnimating()
     }
-    
+
     func dismissLoadingView() {
         DispatchQueue.main.async {
             guard let containerView1 = containerView else { return }
             containerView1.removeFromSuperview()
             containerView = nil
         }
+    }
+
+    func showEmptyStateView(with message: String, view: UIView) {
+        let emptyStateView = GFEmptyStateView(message: message)
+        emptyStateView.frame = view.bounds
+        view.addSubview(emptyStateView)
     }
 }

@@ -60,6 +60,13 @@ class FollowerListViewController: UIViewController {
             case let .success(followers):
                 if followers.count < NetworkManager.shared.itemsPerPage { self.hasMoreFollowers = false }
                 self.followers.append(contentsOf: followers)
+
+                if followers.isEmpty {
+                    let message = "This user doesn't have any followers. Go follow them 😀."
+                    DispatchQueue.main.async { self.showEmptyStateView(with: message, view: self.view) }
+                    return
+                }
+
                 self.updateData()
             case let .failure(error):
                 self.presentGFAlertOnMainThread(
