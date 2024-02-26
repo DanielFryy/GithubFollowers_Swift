@@ -8,22 +8,21 @@
 import UIKit
 
 class UserInfoViewController: UIViewController {
+    var username: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .systemBackground
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(dismissViewController)
+        )
+        navigationItem.rightBarButtonItem = doneButton
+        print(username ?? "")
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @objc func dismissViewController() {
+        dismiss(animated: true)
     }
-    */
-
 }
