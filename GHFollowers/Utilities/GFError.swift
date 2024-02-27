@@ -1,8 +1,8 @@
 //
-//  ErrorMessage.swift
+//  GFError.swift
 //  GHFollowers
 //
-//  Created by Daniel Freire on 2/19/24.
+//  Created by Daniel Freire on 2/27/24.
 //
 
 import Foundation
