@@ -8,6 +8,7 @@
 import UIKit
 
 class UserInfoViewController: UIViewController {
+    let headerView = UIView()
     var username: String!
 
     override func viewDidLoad() {
@@ -19,12 +20,17 @@ class UserInfoViewController: UIViewController {
             action: #selector(dismissViewController)
         )
         navigationItem.rightBarButtonItem = doneButton
+        
+        layoutUI()
+
         NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
             guard let self = self else { return }
 
             switch result {
             case let .success(user):
-                print(user.login)
+                DispatchQueue.main.async {
+                    self.add(childViewController: GFUserInfoHeaderViewController(user: user), to: self.headerView)
+                }
             case let .failure(error):
                 self.presentGFAlertOnMainThread(
                     title: "Something went wrong ",
@@ -33,6 +39,25 @@ class UserInfoViewController: UIViewController {
                 )
             }
         }
+    }
+
+    func layoutUI() {
+        view.addSubview(headerView)
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 180)
+        ])
+    }
+
+    func add(childViewController: UIViewController, to containerView: UIView) {
+        addChild(childViewController)
+        containerView.addSubview(childViewController.view)
+        childViewController.view.frame = containerView.bounds
+        childViewController.didMove(toParent: self)
     }
 
     @objc func dismissViewController() {
