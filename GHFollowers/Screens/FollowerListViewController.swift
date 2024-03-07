@@ -119,7 +119,40 @@ class FollowerListViewController: UIViewController {
         DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
     }
 
-    @objc func addButtonTapped() {}
+    @objc func addButtonTapped() {
+        showLoadingView()
+        NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
+
+            switch result {
+            case let .success(user):
+                let favourite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+                PersistenceManager.updateWith(favourite: favourite, actionType: .add) { [weak self] error in
+                    guard let self = self else { return }
+                    if let error = error {
+                        self.presentGFAlertOnMainThread(
+                            title: "Something went wrong",
+                            message: error.rawValue,
+                            buttonTitle: "Ok"
+                        )
+                        return
+                    }
+                    self.presentGFAlertOnMainThread(
+                        title: "Success!",
+                        message: "You have successfully favourited this user 🎉",
+                        buttonTitle: "Hooray!"
+                    )
+                }
+            case let .failure(error):
+                self.presentGFAlertOnMainThread(
+                    title: "Something went wrong",
+                    message: error.rawValue,
+                    buttonTitle: "Ok"
+                )
+            }
+        }
+    }
 }
 
 extension FollowerListViewController: UICollectionViewDelegate {
