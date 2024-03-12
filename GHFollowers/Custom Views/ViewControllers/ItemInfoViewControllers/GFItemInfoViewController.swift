@@ -12,8 +12,6 @@ class GFItemInfoViewController: UIViewController {
     let itemInfoViewOne = GFItemInfoView()
     let itemInfoViewTwo = GFItemInfoView()
     let actionButton = GFButton()
-    
-    weak var delegate: UserInfoViewControllerDelegate!
 
     var user: User!
 
@@ -47,16 +45,15 @@ class GFItemInfoViewController: UIViewController {
         stackView.addArrangedSubview(itemInfoViewOne)
         stackView.addArrangedSubview(itemInfoViewTwo)
     }
-    
+
     private func configureActionButton() {
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
     }
-    
+
     @objc func actionButtonTapped() {}
 
     private func layoutUI() {
-        view.addSubview(stackView)
-        view.addSubview(actionButton)
+        view.addSubviews(stackView, actionButton)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         let padding: CGFloat = 20
 

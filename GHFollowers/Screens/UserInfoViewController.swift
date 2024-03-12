@@ -8,8 +8,7 @@
 import UIKit
 
 protocol UserInfoViewControllerDelegate: AnyObject {
-    func didTapGitHubProfile(for user: User)
-    func didTapGetFollowers(for user: User)
+    func didRequestFollowers(for username: String)
 }
 
 class UserInfoViewController: GFDataLoadingViewController {
@@ -19,7 +18,7 @@ class UserInfoViewController: GFDataLoadingViewController {
     let dateLabel = GFBodyLabel(textAlignment: .center)
     var itemViews = [UIView]()
 
-    weak var delegate: FollowerListViewControllerDelegate!
+    weak var delegate: UserInfoViewControllerDelegate!
     var username: String!
 
     override func viewDidLoad() {
@@ -93,7 +92,7 @@ class UserInfoViewController: GFDataLoadingViewController {
             itemViewTwo.heightAnchor.constraint(equalToConstant: itemHeight),
 
             dateLabel.topAnchor.constraint(equalTo: itemViewTwo.bottomAnchor, constant: padding),
-            dateLabel.heightAnchor.constraint(equalToConstant: 18)
+            dateLabel.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
 
@@ -109,7 +108,7 @@ class UserInfoViewController: GFDataLoadingViewController {
     }
 }
 
-extension UserInfoViewController: UserInfoViewControllerDelegate {
+extension UserInfoViewController: GFRepoItemViewControllerDelegate, GFFollowerItemViewControllerDelegate {
     func didTapGitHubProfile(for user: User) {
         guard let url = URL(string: user.htmlUrl) else {
             presentGFAlertOnMainThread(
