@@ -14,9 +14,7 @@ enum PersistenceActionType {
 enum PersistenceManager {
     private static let defaults = UserDefaults.standard
 
-    enum Keys {
-        static let favourites = "favourites"
-    }
+    enum Keys { static let favourites = "favourites" }
 
     static func updateWith(
         favourite: Follower,

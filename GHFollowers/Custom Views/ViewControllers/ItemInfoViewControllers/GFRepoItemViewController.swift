@@ -13,7 +13,7 @@ protocol GFRepoItemViewControllerDelegate: AnyObject {
 
 class GFRepoItemViewController: GFItemInfoViewController {
     weak var delegate: GFRepoItemViewControllerDelegate!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureItems()
@@ -24,7 +24,7 @@ class GFRepoItemViewController: GFItemInfoViewController {
         itemInfoViewTwo.set(itemInfoType: .gists, withCount: user.publicGists)
         actionButton.set(backgroundColor: .systemPurple, title: "Gighub Profile")
     }
-    
+
     override func actionButtonTapped() {
         delegate.didTapGitHubProfile(for: user)
     }

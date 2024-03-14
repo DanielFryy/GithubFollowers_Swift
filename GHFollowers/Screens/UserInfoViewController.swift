@@ -14,6 +14,7 @@ protocol UserInfoViewControllerDelegate: AnyObject {
 class UserInfoViewController: GFDataLoadingViewController {
     let scrollView = UIScrollView()
     let contentView = UIView()
+
     let headerView = UIView()
     let itemViewOne = UIView()
     let itemViewTwo = UIView()
@@ -44,7 +45,7 @@ class UserInfoViewController: GFDataLoadingViewController {
         scrollView.addSubview(contentView)
         scrollView.pinToEdges(of: view)
         contentView.pinToEdges(of: scrollView)
-        
+
         NSLayoutConstraint.activate([
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             contentView.heightAnchor.constraint(equalToConstant: 600)

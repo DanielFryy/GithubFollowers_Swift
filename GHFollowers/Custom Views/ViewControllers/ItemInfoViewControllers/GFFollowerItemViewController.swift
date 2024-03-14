@@ -13,7 +13,7 @@ protocol GFFollowerItemViewControllerDelegate: AnyObject {
 
 class GFFollowerItemViewController: GFItemInfoViewController {
     weak var delegate: GFFollowerItemViewControllerDelegate!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureItems()

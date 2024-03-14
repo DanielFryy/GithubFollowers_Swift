@@ -86,16 +86,7 @@ class FollowerListViewController: GFDataLoadingViewController {
 
             switch result {
             case let .success(followers):
-                if followers.count < NetworkManager.shared.itemsPerPage { self.hasMoreFollowers = false }
-                self.followers.append(contentsOf: followers)
-
-                if followers.isEmpty {
-                    let message = "This user doesn't have any followers. Go follow them 😀."
-                    DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
-                    return
-                }
-
-                self.updateData(on: self.followers)
+                self.updateUI(with: followers)
             case let .failure(error):
                 self.presentGFAlertOnMainThread(
                     title: "Bad Stuff Happend",
@@ -105,6 +96,19 @@ class FollowerListViewController: GFDataLoadingViewController {
             }
             self.isLoadingMoreFollowers = false
         }
+    }
+
+    func updateUI(with followers: [Follower]) {
+        if followers.count < NetworkManager.shared.itemsPerPage { hasMoreFollowers = false }
+        self.followers.append(contentsOf: followers)
+
+        if followers.isEmpty {
+            let message = "This user doesn't have any followers. Go follow them 😀."
+            DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
+            return
+        }
+
+        updateData(on: self.followers)
     }
 
     func configureDataSource() {
@@ -136,23 +140,7 @@ class FollowerListViewController: GFDataLoadingViewController {
 
             switch result {
             case let .success(user):
-                let favourite = Follower(login: user.login, avatarUrl: user.avatarUrl)
-                PersistenceManager.updateWith(favourite: favourite, actionType: .add) { [weak self] error in
-                    guard let self = self else { return }
-                    if let error = error {
-                        self.presentGFAlertOnMainThread(
-                            title: "Something went wrong",
-                            message: error.rawValue,
-                            buttonTitle: "Ok"
-                        )
-                        return
-                    }
-                    self.presentGFAlertOnMainThread(
-                        title: "Success!",
-                        message: "You have successfully favourited this user 🎉",
-                        buttonTitle: "Hooray!"
-                    )
-                }
+                self.addUserToFavourites(user)
             case let .failure(error):
                 self.presentGFAlertOnMainThread(
                     title: "Something went wrong",
@@ -160,6 +148,26 @@ class FollowerListViewController: GFDataLoadingViewController {
                     buttonTitle: "Ok"
                 )
             }
+        }
+    }
+
+    func addUserToFavourites(_ user: User) {
+        let favourite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+        PersistenceManager.updateWith(favourite: favourite, actionType: .add) { [weak self] error in
+            guard let self = self else { return }
+            if let error = error {
+                self.presentGFAlertOnMainThread(
+                    title: "Something went wrong",
+                    message: error.rawValue,
+                    buttonTitle: "Ok"
+                )
+                return
+            }
+            self.presentGFAlertOnMainThread(
+                title: "Success!",
+                message: "You have successfully favourited this user 🎉",
+                buttonTitle: "Hooray!"
+            )
         }
     }
 }
@@ -208,6 +216,7 @@ extension FollowerListViewController: UserInfoViewControllerDelegate {
         self.username = username
         title = username
         page = 1
+
         followers.removeAll()
         filteredFollowers.removeAll()
         collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
