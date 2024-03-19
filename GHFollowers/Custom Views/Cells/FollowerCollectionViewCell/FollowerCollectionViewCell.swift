@@ -5,6 +5,7 @@
 //  Created by Daniel Freire on 2/19/24.
 //
 
+import SwiftUI
 import UIKit
 
 class FollowerCollectionViewCell: UICollectionViewCell {
@@ -23,8 +24,12 @@ class FollowerCollectionViewCell: UICollectionViewCell {
     }
 
     func set(follower: Follower) {
-        avatarImageView.downloadImage(fromURL: follower.avatarUrl)
-        usernameLabel.text = follower.login
+        if #available(iOS 16, *) {
+            contentConfiguration = UIHostingConfiguration { FollowerCollectionView(follower: follower) }
+        } else {
+            avatarImageView.downloadImage(fromURL: follower.avatarUrl)
+            usernameLabel.text = follower.login
+        }
     }
 
     private func configure() {

@@ -152,8 +152,8 @@ class FollowerListViewController: GFDataLoadingViewController {
     func addUserToFavourites(_ user: User) {
         let favourite = Follower(login: user.login, avatarUrl: user.avatarUrl)
         PersistenceManager.updateWith(favourite: favourite, actionType: .add) { [weak self] error in
-            guard let self = self else { return }
-            if let error = error {
+            guard let self else { return }
+            if let error {
                 DispatchQueue.main.async {
                     self.presentGFAlert(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
                 }
