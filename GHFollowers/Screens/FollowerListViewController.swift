@@ -46,6 +46,20 @@ class FollowerListViewController: GFDataLoadingViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
+    override func updateContentUnavailableConfiguration(using _: UIContentUnavailableConfigurationState) {
+        if followers.isEmpty && !isLoadingMoreFollowers {
+            var config = UIContentUnavailableConfiguration.empty()
+            config.image = .init(systemName: "person.slash")
+            config.text = "No Followers"
+            config.secondaryText = "This user has no followers. Go follow them!"
+            contentUnavailableConfiguration = config
+        } else if isSearching && filteredFollowers.isEmpty {
+            contentUnavailableConfiguration = UIContentUnavailableConfiguration.search()
+        } else {
+            contentUnavailableConfiguration = nil
+        }
+    }
+
     func configureViewController() {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -100,14 +114,8 @@ class FollowerListViewController: GFDataLoadingViewController {
     func updateUI(with followers: [Follower]) {
         if followers.count < NetworkManager.shared.itemsPerPage { hasMoreFollowers = false }
         self.followers.append(contentsOf: followers)
-
-        if followers.isEmpty {
-            let message = "This user doesn't have any followers. Go follow them 😀."
-            DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
-            return
-        }
-
         updateData(on: self.followers)
+        setNeedsUpdateContentUnavailableConfiguration()
     }
 
     func configureDataSource() {
@@ -200,12 +208,14 @@ extension FollowerListViewController: UISearchResultsUpdating {
         guard let filter = searchController.searchBar.text, !filter.isEmpty else {
             filteredFollowers.removeAll()
             updateData(on: followers)
+            setNeedsUpdateContentUnavailableConfiguration()
             isSearching = false
             return
         }
         isSearching = true
         filteredFollowers = followers.filter { $0.login.lowercased().contains(filter.lowercased()) }
         updateData(on: filteredFollowers)
+        setNeedsUpdateContentUnavailableConfiguration()
     }
 }
 
